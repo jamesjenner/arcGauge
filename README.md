@@ -1,7 +1,7 @@
-arcGuage
+arcGauge
 ========
 
-A gauge based around an arc implemented via D3 for use in HTML. The primary purpose is to use as a progress based guage. 
+A gauge based around an arc implemented via D3 for use in HTML. The primary purpose is to use as a progress based gauge. 
 
 ##Features
 
@@ -20,7 +20,7 @@ A gauge based around an arc implemented via D3 for use in HTML. The primary purp
 
 ##Example
 
-Note that the following example is available in `https://github.com/jamesjenner/arcGuage/testArc.html`.
+Note that the following example is available in `https://github.com/jamesjenner/arcGuage/testArc.html`
 
     <!doctype html>
     <html style="height: 100%">
