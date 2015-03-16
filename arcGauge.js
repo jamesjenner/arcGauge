@@ -124,8 +124,6 @@ function ArcGauge(options) {
       .style("font-size", this.textSize)
       .attr("fill", this.textColor);
   
-  console.log("##font-size: " + this.textSize);
-
   // newText.setAttributeNS(null,"fill-opacity",Math.random());		
   // newText.setAttributeNS(null,"fill","rgb("+ red +","+ green+","+blue+")");
 }
@@ -187,7 +185,7 @@ ArcGauge.prototype.setTarget = function(newValue, redrawGauge) {
   
   this.target = newValue;
   
-  if(this.valueType == ArcGauge.VALUES_ACTUAL) {
+  if(this.valueType === ArcGauge.VALUES_ACTUAL) {
     this.targetPercentage = (this.target - this.minValue) / (this.maxValue - this.minValue);
   } else {
     this.targetPercentage = newValue;
@@ -222,6 +220,7 @@ ArcGauge.prototype.setTarget = function(newValue, redrawGauge) {
 ArcGauge.prototype.setValue = function(newValue, redrawGauge) {
   redrawGauge = ((redrawGauge !== null && redrawGauge !== undefined) ? redrawGauge : true);
   var formatPercent = d3.format(".0%");
+  var formatNumber = d3.format("f");
   
   if(newValue > this.maxValue) {
     newValue = this.maxValue;
@@ -231,12 +230,10 @@ ArcGauge.prototype.setValue = function(newValue, redrawGauge) {
     newValue = this.minValue;
   }
   
+  var oldValue = this.value;
   this.value = newValue;
-  var oldValue = 0;
       
-  // TODO: sort out actual value, currently not working in tween function for text
   if(this.valueType == ArcGauge.VALUES_ACTUAL) {
-    oldValue = this.valuePercentage;
     this.valuePercentage = (this.value - this.minValue) / (this.maxValue - this.minValue);
   } else {
     oldValue = this.valuePercentage;
@@ -246,24 +243,28 @@ ArcGauge.prototype.setValue = function(newValue, redrawGauge) {
   if(redrawGauge) {
     var percentageValue = this.valuePercentage;
 
-    (function(percentageValue, arcGaugeInst) {
+    (function(arcGaugeInst) {
       arcGaugeInst.foreground.transition()
         .duration(750)
         .style("fill", arcGaugeInst._determineForegroundColor())
         .call(arcTween, arcGaugeInst.startAngle + (arcGaugeInst.arcAngle * arcGaugeInst.valuePercentage), arcGaugeInst.innerArc);
-
+      
       arcGaugeInst.text.transition()
         .duration(750)
         .ease('linear')
         .tween('text', function() {
-          var ip = d3.interpolate(oldValue, percentageValue);
+          var ip = d3.interpolate(oldValue, newValue);
           return function(t) {
             var v = ip(t);
             // this.textContent = Math.round(v * 100);
-            this.textContent = formatPercent(v);
+            if(arcGaugeInst.textDisplayMode === ArcGauge.DISPLAY_PERCENTAGE) {
+              this.textContent = formatPercent(v / 100);
+            } else {
+              this.textContent = formatNumber(v);
+            }
           };
       });
-    })(this.valuePercentage, this);
+    })(this);
   }
   
   // note: cannot bind this to the tween function, as this points to the selection of the tween
@@ -274,15 +275,12 @@ ArcGauge.prototype.demo = function() {
   // (identical to selection.call) so that we can encapsulate the logic for
   // tweening the arc in a separate function below.
   
-  setInterval(function() {
-    if(this.valueType == ArcGauge.VALUES_ACTUAL) {
-      this.setTarget(Math.random() * 100);
-      this.setValue(Math.random() * 100);
-    } else {
-      this.setTarget(Math.random());
-      this.setValue(Math.random());
-    }
-  }.bind(this), 1500);
+  setInterval(function(min, max) {
+    var target = Math.floor(Math.random() * (max - min)) + min;
+    var value = Math.floor(Math.random() * (max - min)) + min;
+    this.setTarget(target);
+    this.setValue(value);
+  }.bind(this, this.minValue, this.maxValue), 1500);
 };
 
 // Creates a tween on the specified transition's "d" attribute, transitioning
