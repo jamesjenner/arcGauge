@@ -67,6 +67,40 @@ Note that the following example is available in `https://github.com/jamesjenner/
     </body>
     </html>
 
+##Options
+
+* value - initial value, defualt is 0
+* target - initial target value, default is 0.5
+* minValue - minimum allowed value, default is 0
+* maxValue - maximum allowed value, default is 100
+* valueType - how to display the value, default is ArcGauge.VALUES_ACTUAL (ArcGauge.VALUES_PERCENTAGE | ArcGauge.VALUES_ACTUAL) 
+* displayTarget - display the target element, default is true (true|false) 
+* startAngle - starting angle of gauge, defualt is ArcGauge.TAU * 0.6
+* arcAngle - the total angle of the gauge, default is ArcGauge.TAU * 0.8
+* endAngle - ending angle of gauge, cannot be set via options, defaults to startAngle plus arcAngle
+* goodMargin - value from which the value is determined as good, affects colour of gauge
+* dangerMargin - value from which the value is determined as in danger, affects colour of gauge
+* colorMode - mode for setting the colour of the gauge, currently supports ArcGauge.COLOR_MODE_MANUAL and ArcGauge.COLOR_MODE_VALUE
+* goodColor - the colour when the value is deemed good, value is larger than or equal to goodMargin
+* warningColor - the colour when the value is deemed in warning, value is less than goodMargin and larger than dangerMargin
+* dangerColor - the color when the alue is deemed in danger, value is less than or equal to the dangerMargin
+* markColor - the color for the target element
+* textColor - the color for the text
+* backgroundColor - the color of the background
+* barColor - color of the bar, used when colorMode is ArcGauge.COLOR_MODE_MANUAL
+* textDisplayMode
+* textSize
+* textFontName
+* textFontWeight
+* appendTo
+* width
+* height
+* innerRadius
+* outerRadius
+* markerInnerRadius
+* markerOuterRadius
+
+
 ##Dependancies
 
 * [D3](http://d3js.org/) - a javascript library for manipulating documents based on data
