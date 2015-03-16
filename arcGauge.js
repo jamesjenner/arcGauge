@@ -85,15 +85,7 @@ function ArcGauge(options) {
     .attr("height", this.height)
     .attr("class", "arcGauge")
     .attr("viewBox", "0 0 200 200")  // set viewBox to 200/200 so we can use 0 to 100 for sizing
-    // .attr("perserveAspectRatio", "xMidYMid meet");
-    // .attr("perserveAspectRatio", "none")
     .append("g").attr("transform", "translate(100, 100)");
-
-  // determin the true size of the svg element
-  //  var elem1 = document.getElementById(this.appendTo);
-  //  var style = window.getComputedStyle(elem1, null);
-  //  var svgBBox = svg.node().getBBox();
-  // svg = svg.append("g").attr("transform", "translate(" + parseFloat(style.width) / 2 + "," + parseFloat(style.height) / 2 + ")");
 
   // Add the background arc, from 0 to 100% (τ).
   var background = svg.append("path")
@@ -123,9 +115,6 @@ function ArcGauge(options) {
       .style("font-weight", this.textFontWeight)
       .style("font-size", this.textSize)
       .attr("fill", this.textColor);
-  
-  // newText.setAttributeNS(null,"fill-opacity",Math.random());		
-  // newText.setAttributeNS(null,"fill","rgb("+ red +","+ green+","+blue+")");
 }
 
     
@@ -196,16 +185,6 @@ ArcGauge.prototype.setTarget = function(newValue, redrawGauge) {
 
     (function(percentageValue, arcGaugeInst) {
 
-//  var markArc = d3.svg.arc()
-//      .innerRadius(122)
-//      .outerRadius(126)
-//      .startAngle(this.startAngle);
-//      
-//  this.targetMark = svg.append("path")
-//      .datum({endAngle: this.startAngle + (this.arcAngle * this.targetPercentage)})
-//      .style("fill", "rgba(150, 150, 150, .8)")
-//      .attr("d", markArc);
-      
       arcGaugeInst.targetMark.transition()
         .duration(750)
         .call(arcTween, arcGaugeInst.startAngle + (arcGaugeInst.arcAngle * arcGaugeInst.targetPercentage), arcGaugeInst.markArc);
