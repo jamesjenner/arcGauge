@@ -2,6 +2,7 @@ this['arcGauge'] = {};
     
 ArcGauge.COLOR_MODE_RANGE = "colorModeRange";
 ArcGauge.COLOR_MODE_VALUE = "colorModeValue";
+ArcGauge.COLOR_MODE_MANUAL = "colorModeManual";
 
 // http://tauday.com/tau-manifesto -> TAU == 2PI
 ArcGauge.τ = 2 * Math.PI; 
@@ -22,6 +23,7 @@ function ArcGauge(options) {
   this.goodMargin = ((options.goodMargin !== null && options.goodMargin !== undefined) ? options.goodMargin : 2);
   this.dangerMargin = ((options.dangerMargin !== null && options.dangerMargin !== undefined) ? options.dangerMargin : 10);
   this.colorMode = ((options.colorMode !== null && options.colorMode !== undefined) ? options.colorMode : ArcGauge.COLOR_MODE_VALUE);
+  this.displayTarget = ((options.displayTarget !== null && options.displayTarget !== undefined) ? options.displayTarget : true);
 
   this.valueType = ((options.valueType !== null && options.valueType !== undefined) ? options.valueType : ArcGauge.VALUES_ACTUAL);
   
@@ -34,6 +36,7 @@ function ArcGauge(options) {
   this.markColor = ((options.markColor !== null && options.markColor !== undefined) ? options.markColor : "gray");
   this.textColor = ((options.textColor !== null && options.textColor !== undefined) ? options.textColor : "black");
   this.backgroundColor = ((options.backgroundColor !== null && options.backgroundColor !== undefined) ? options.backgroundColor : "lightgray");
+  this.barColor = ((options.barColor !== null && options.barColor !== undefined) ? options.barColor : "blue");
   
   this.value = ((options.value !== null && options.value !== undefined) ? options.value : 0);
   this.setValue(this.value, false);
@@ -95,10 +98,12 @@ function ArcGauge(options) {
 
   var foregroundColor = this._determineForegroundColor();
   
-  this.targetMark = svg.append("path")
-      .datum({endAngle: this.startAngle + (this.arcAngle * this.targetPercentage)})
-      .style("fill", this.markColor)
-      .attr("d", this.markArc);
+  if(this.displayTarget) {
+    this.targetMark = svg.append("path")
+        .datum({endAngle: this.startAngle + (this.arcAngle * this.targetPercentage)})
+        .style("fill", this.markColor)
+        .attr("d", this.markArc);
+  }
 
   this.foreground = svg.append("path")
       .attr("id", "targetValue")
@@ -158,6 +163,10 @@ ArcGauge.prototype._determineForegroundColor = function() {
     }
   }
   
+  if(this.colorMode === ArcGauge.COLOR_MODE_MANUAL) {
+    foregroundColor = this.barColor;
+  }
+  
   return foregroundColor;
 };
 
@@ -185,9 +194,11 @@ ArcGauge.prototype.setTarget = function(newValue, redrawGauge) {
 
     (function(percentageValue, arcGaugeInst) {
 
-      arcGaugeInst.targetMark.transition()
-        .duration(750)
-        .call(arcTween, arcGaugeInst.startAngle + (arcGaugeInst.arcAngle * arcGaugeInst.targetPercentage), arcGaugeInst.markArc);
+      if(arcGaugeInst.displayTarget) {
+        arcGaugeInst.targetMark.transition()
+          .duration(750)
+          .call(arcTween, arcGaugeInst.startAngle + (arcGaugeInst.arcAngle * arcGaugeInst.targetPercentage), arcGaugeInst.markArc);
+      }
       
       arcGaugeInst.foreground.transition()
         .duration(750)
