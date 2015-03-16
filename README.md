@@ -101,12 +101,27 @@ Note that the following example is available in `https://github.com/jamesjenner/
 * markerOuterRadius - the outer raidus of the target arc, defaults to the `markerInnerRadius` + 4
 
 
+##Versions
+
+###0.0.2 
+
+The following is a summary of the changes in release 0.0.2.
+
+* Correctly displays values, irrespective of `textDisplayMode`
+* `displayTarget`, new option. Controls whether the target element of the gauge will be displayed
+* `colorMode`, new option. Determines if the color of the inidicator is determined by `goodMargin`, `badMargin` or manually set. Options are `ArcGauge.COLOR_MODE_MANUAL` and `ArcGauge.COLOR_MODE_VALUE`
+* `barColor`, new option, defaults to `blue`. Specifies the color of the indicator on the gauge when `colorMode` is set to `ArcGauge.COLOR_MODE_MANUAL`
+* Expanded testArc.html to demonstrate possible ways of using arcGauge.
+
+###0.0.1 
+
+First release
+
 ##Dependancies
 
 * [D3](http://d3js.org/) - a javascript library for manipulating documents based on data
 
 ##To Do
-
 
 ##License (MIT)
 
