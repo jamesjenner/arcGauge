@@ -83,6 +83,7 @@ function ArcGauge(options) {
   var svg = d3.select("#" + this.appendTo).append("svg")
     .attr("width", this.width)
     .attr("height", this.height)
+    .attr("class", "arcGauge")
     .attr("viewBox", "0 0 200 200")  // set viewBox to 200/200 so we can use 0 to 100 for sizing
     // .attr("perserveAspectRatio", "xMidYMid meet");
     // .attr("perserveAspectRatio", "none")
@@ -213,6 +214,15 @@ ArcGauge.prototype.setTarget = function(newValue, redrawGauge) {
 ArcGauge.prototype.setValue = function(newValue, redrawGauge) {
   redrawGauge = ((redrawGauge !== null && redrawGauge !== undefined) ? redrawGauge : true);
   var formatPercent = d3.format(".0%");
+  
+  if(newValue > this.maxValue) {
+    newValue = this.maxValue;
+  }
+  
+  if(newValue < this.minValue) {
+    newValue = this.minValue;
+  }
+  
   this.value = newValue;
   var oldValue = 0;
       
