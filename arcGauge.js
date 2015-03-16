@@ -177,6 +177,14 @@ ArcGauge.prototype._determineForegroundColor = function() {
 ArcGauge.prototype.setTarget = function(newValue, redrawGauge) {
   redrawGauge = ((redrawGauge !== null && redrawGauge !== undefined) ? redrawGauge : true);
   
+  if(newValue > this.maxValue) {
+    newValue = this.maxValue;
+  }
+  
+  if(newValue < this.minValue) {
+    newValue = this.minValue;
+  }
+  
   this.target = newValue;
   
   if(this.valueType == ArcGauge.VALUES_ACTUAL) {
