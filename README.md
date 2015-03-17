@@ -67,6 +67,10 @@ Note that the following example is available in `https://github.com/jamesjenner/
     </body>
     </html>
 
+##Usage
+
+    new ArcGauge([options]);
+
 ##Options
 
 * value - initial value, defualt is 0
@@ -100,8 +104,55 @@ Note that the following example is available in `https://github.com/jamesjenner/
 * markerInnerRadius - the inner radius of the target arc, defaults to the `outerRadius` + 2
 * markerOuterRadius - the outer raidus of the target arc, defaults to the `markerInnerRadius` + 4
 
+##Methods
+
+####setTarget(value[, redraw])
+
+Set the target indicator value.
+
+* value, the new value for the target, will be overridden if outside minValue/maxValue
+* redraw, redraw the gauge
+
+####setValue(value[, redraw])
+
+Set the main indicator value.
+
+* value, the new value for the inidicator, will be overridden if outside minValue/maxValue
+* redraw, redraw the gauge
+
+####setIndicatorColor(color)
+
+Override the indicator color.
+
+* color, the color for the indicator
+
+Note that this will set `colorMode` to `ArcGauge.COLOR_MODE_MANUAL`, resulting in a fixed indicator color
+
+####setText(text)
+
+Override the text.
+
+* text, the text to display in the gauge
+
+Note that this will set `textDisplayMode` to `ArcGauge.DISPLAY_TEXT`, resulting in fixed text
+
+####demo()
+
+Set the gauge to run in demo mode, changing the value of the indicator and target to a random value between the minValue and maxValue (inclusive).
 
 ##Versions
+
+###0.0.3 
+
+The following is a summary of the changes in release 0.0.3.
+
+* `setIndicatorColor()`, new method, set the color of the indicator and change the color mode to manual
+* `setText()`, new method, set the text displayed in the gauge and change the display mode to text
+* `ArcGauge.COLOR_MODE_MANUAL`, new option for `options.colorMode`, the color of the indicator will not automatically change based on the value
+* `ArcGauge.DISPLAY_TEXT`, new option for `options.textDisplayMode`, the text on the gauge will not automatically change to the value
+* `demo()`, returns the instance of the ArcGauge that it is operating upon. 
+
+The demo has been updated to demonstrate `setIndicatorColor()` and `setText()`.
 
 ###0.0.2 
 
